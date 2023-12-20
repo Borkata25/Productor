@@ -1,48 +1,25 @@
-import { Login } from "./components/Login";
-import { Register } from "./components/Register";
-import { useState } from "react";
-
-import NewUser from './components/NewUser'
-import axios from "axios";
-import CreateUser from "./components/NewUser";
-
+import Register from './pages/Register'
+import Login from './pages/Login';
+import {
+  unstable_HistoryRouter as HistoryRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
+import { history } from '.';
 
 
 
 function App() {
-  const [users, setUsers] = useState([]);
 
+  return (
+    <HistoryRouter history={history}>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route exact path="/" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </HistoryRouter>
+  );
 
-  const createUser = async (user) => {
-    const response = await axios.post('http://localhost:3001/users', {
-      user
-    })
-
-    const updatedUsers = [...users, response.data]
-    setUsers(updatedUsers)
-  }
-
-  // const [currentForm, setCurrentForm] = useState('login')
-
-  // const toggleForm = (forName) => {
-  //   setCurrentForm(forName);
-  // }
-
-
-  return <div>
-    <CreateUser onCreate={createUser} />
-  </div>
-
-
-
-
-
-  // <div>
-  //   {
-  //     currentForm === 'login' ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
-  //   }
-
-  // </div>
 }
-
 export default App;

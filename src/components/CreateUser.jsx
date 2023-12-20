@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
- function CreateUser({ onCreate }) {
+function CreateUser({ onCreate }) {
   const [name, setName] = useState('');
 
   const handleChange = (event) => {
