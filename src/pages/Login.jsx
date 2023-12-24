@@ -8,17 +8,18 @@ import {
   Typography,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { loginUser } from '../store/API/userApi';
+import { useDispatch } from 'react-redux';
 
 function Login() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-   
-    console.log(email);
-    console.log(password);
+
+    await loginUser({ email, password }, dispatch);
   };
 
   return (
@@ -39,7 +40,6 @@ function Login() {
         component="main"
         maxWidth="sm"
       >
-        
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>

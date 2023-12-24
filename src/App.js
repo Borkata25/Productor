@@ -6,6 +6,7 @@ import {
   Routes,
 } from "react-router-dom";
 import { history } from '.';
+import ProductList from './pages/ProductList';
 
 
 
@@ -15,7 +16,7 @@ function App() {
     <HistoryRouter history={history}>
       <Routes>
         <Route path="/register" element={<Register />} />
-        <Route exact path="/" element={<Register />} />
+        <Route exact path="/" element={<ProductList />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </HistoryRouter>

@@ -1,6 +1,8 @@
 import { Box, Container, TextField, Grid, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { registerUser } from '../store/API/userApi';
+import { useDispatch } from 'react-redux';
 
 function Register() {
   const [firstName, setFirstName] = useState('');
@@ -8,17 +10,13 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(firstName);
-    console.log(lastName);
-    console.log(email);
-    console.log(password);
+    await registerUser({firstName,lastName,email,password}, dispatch)
   };
-  
-
- 
-
   
 
   return (
