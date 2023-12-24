@@ -1,7 +1,22 @@
 import axios from "axios";
 import { register, login } from "../../slices/userSlice";
 import { history } from "../../..";
+import { fetchAll, productDelete } from "../../slices/productSlice";
 
+
+export async function fetchUserProducts(userId, dispatch) {
+  const response = await axios.get('http://localhost:3001/products')
+  const responseData = response.data;
+  const userProducts = responseData.filter(productItem => productItem.userId === userId)
+
+  await dispatch(fetchAll(userProducts))
+}
+
+export async function deleteUserProducts(productId, dispatch) {
+  await axios.delete(`http://localhost:3001/products/${productId}`)
+
+  await dispatch(productDelete(productId));
+}
 
 export async function registerUser(user, dispatch) {
   const response = await axios.post('http://localhost:3001/users', user)

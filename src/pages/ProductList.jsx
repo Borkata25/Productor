@@ -15,8 +15,11 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { deleteUserProducts, fetchUserProducts } from '../store/API/userApi';
+import { useDispatch } from 'react-redux';
 
 function ProductList() {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const products = useSelector((state) => state.products);
 
@@ -24,7 +27,9 @@ function ProductList() {
     if (!user.id) {
       history.replace('/login');
     }
-  }, [user.id]);
+
+    fetchUserProducts(user.id, dispatch);
+  }, [user.id, dispatch]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -46,7 +51,9 @@ function ProductList() {
     },
   }));
 
-  console.log(products, 'prods');
+  const handleDelete = async (productId) => {
+    await deleteUserProducts(productId, dispatch);
+  };
 
   return (
     <Container component="main">
@@ -85,7 +92,11 @@ function ProductList() {
                   <Button style={{ minWidth: '30px' }}>
                     <EditIcon color="primary" /> &nbsp;{' '}
                   </Button>
-                  <Button>
+                  <Button
+                    onClick={() => {
+                      handleDelete(row.id);
+                    }}
+                  >
                     <DeleteIcon color="error" />
                   </Button>
                 </StyledTableCell>

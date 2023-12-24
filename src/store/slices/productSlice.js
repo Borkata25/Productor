@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [{ id: 1, name: "Product1", quantity: 5, unit: "count", addDate: "13.05.2023", expDate: "13.12.2023" }, { id: 2, name: "Product2", quantity: 5, unit: "count", addDate: "13.05.2023", expDate: "13.12.2023" }]
+
+const initialState = []
 
 const productSlice = createSlice({
   name: 'products',
@@ -17,7 +18,7 @@ const productSlice = createSlice({
       return initialState;
     },
     productDelete: (state, action) => {
-      return initialState;
+      return state.filter(productItem => productItem.id !== action.payload)
     },
   }
 })
