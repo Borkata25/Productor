@@ -17,6 +17,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteUserProducts, fetchUserProducts } from '../store/API/userApi';
 import { useDispatch } from 'react-redux';
+import UserNavigation from '../components/UserNavigation';
 
 function ProductList() {
   const dispatch = useDispatch();
@@ -57,12 +58,13 @@ function ProductList() {
 
   return (
     <Container component="main">
+      <UserNavigation firstName={user.firstName} lastName={user.lastName} />
       <TableContainer component={Paper}>
         <div
           style={{
             display: 'flex',
             justifyContent: 'right',
-            padding: '10px 0',
+            padding: '10px 10px 10px 0',
           }}
         >
           <Button variant="contained">Add new</Button>
