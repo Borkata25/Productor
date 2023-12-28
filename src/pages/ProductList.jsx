@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { history } from '..';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   TableContainer,
   Table,
@@ -18,11 +18,32 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteUserProducts, fetchUserProducts } from '../store/API/userApi';
 import { useDispatch } from 'react-redux';
 import UserNavigation from '../components/UserNavigation';
+import ProductModal from '../components/ProductModal';
 
 function ProductList() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const products = useSelector((state) => state.products);
+
+  const copyArray = [...products];
+  const sortedProducts = copyArray.sort(
+    (a, b) => new Date(a.expDate) - new Date(b.expDate)
+  );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const handleModalClose = () => setModalOpen(false);
+  const handleModalOpen = () => setModalOpen(true);
+
+  const handleCreateModal = () => {
+    setSelectedProduct(null);
+    handleModalOpen();
+  };
+
+  const handleEditModal = (product) => {
+    setSelectedProduct(product);
+    handleModalOpen();
+  };
 
   useEffect(() => {
     if (!user.id) {
@@ -46,7 +67,6 @@ function ProductList() {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     '&:last-child td, &:last-child th': {
       border: 0,
     },
@@ -58,6 +78,14 @@ function ProductList() {
 
   return (
     <Container component="main">
+      {modalOpen && (
+        <ProductModal
+          userId={user.id}
+          handleClose={handleModalClose}
+          product={selectedProduct}
+        />
+      )}
+
       <UserNavigation firstName={user.firstName} lastName={user.lastName} />
       <TableContainer component={Paper}>
         <div
@@ -67,7 +95,9 @@ function ProductList() {
             padding: '10px 10px 10px 0',
           }}
         >
-          <Button variant="contained">Add new</Button>
+          <Button variant="contained" onClick={handleCreateModal}>
+            Add new
+          </Button>
         </div>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -81,7 +111,7 @@ function ProductList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products?.map((row) => (
+            {sortedProducts?.map((row) => (
               <StyledTableRow key={row.id}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
@@ -91,7 +121,10 @@ function ProductList() {
                 <StyledTableCell align="center">{row.addDate}</StyledTableCell>
                 <StyledTableCell align="center">{row.expDate}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button style={{ minWidth: '30px' }}>
+                  <Button
+                    style={{ minWidth: '30px' }}
+                    onClick={() => handleEditModal(row)}
+                  >
                     <EditIcon color="primary" /> &nbsp;{' '}
                   </Button>
                   <Button

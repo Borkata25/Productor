@@ -12,13 +12,14 @@ const productSlice = createSlice({
 
     },
     productAdd: (state, action) => {
-      return action.payload;
+      return [...state, action.payload];
     },
     productEdit: (state, action) => {
-      return initialState;
+      const oldStateWithoutEditedItem = state.filter(productItem => productItem.id !== action.payload.id)
+      return [...oldStateWithoutEditedItem, action.payload];
     },
     productDelete: (state, action) => {
-      return state.filter(productItem => productItem.id !== action.payload)
+      return state.filter(productItem => productItem.id !== action.payload);
     },
   }
 })
