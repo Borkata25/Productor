@@ -4,7 +4,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you have to run:
+npm install redux react-redux --save
+npm install json-server
+npm install axios
+npm install @mui/material @emotion/react @emotion/styled
+npm install react-router-dom
+npm install history
+npm install @reduxjs/toolkit
+
 
 ### `npm start`
 
