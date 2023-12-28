@@ -19,11 +19,17 @@ import { deleteUserProducts, fetchUserProducts } from '../store/API/userApi';
 import { useDispatch } from 'react-redux';
 import UserNavigation from '../components/UserNavigation';
 import ProductModal from '../components/ProductModal';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import WarningIcon from '@mui/icons-material/Warning';
 
 function ProductList() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const products = useSelector((state) => state.products);
+
+  const currentDate = new Date();
+  const tenDayaAhead = new Date();
+  tenDayaAhead.setDate(currentDate.getDate() + 10);
 
   const copyArray = [...products];
   const sortedProducts = copyArray.sort(
@@ -114,7 +120,16 @@ function ProductList() {
             {sortedProducts?.map((row) => (
               <StyledTableRow key={row.id}>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    {currentDate > new Date(row.expDate) && (
+                      <LocalFireDepartmentIcon color="error" />
+                    )}
+                    {tenDayaAhead > new Date(row.expDate) &&
+                      currentDate <= new Date(row.expDate) && (
+                        <WarningIcon color="warning" />
+                      )}
+                    {row.name}
+                  </div>
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.quantity}</StyledTableCell>
                 <StyledTableCell align="center">{row.unit}</StyledTableCell>

@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react';
 import { createProduct, editProduct } from '../store/API/userApi';
 import { useDispatch } from 'react-redux';
 
+
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -29,7 +31,6 @@ const style = {
 
 function ProductModal({ handleClose, product, userId }) {
   const dispatch = useDispatch();
-
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [unit, setUnit] = useState('');
@@ -71,6 +72,7 @@ function ProductModal({ handleClose, product, userId }) {
     }
     handleClose();
   };
+  
 
   return (
     <div>
